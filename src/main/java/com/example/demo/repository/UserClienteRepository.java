@@ -12,4 +12,6 @@ public interface UserClienteRepository extends MongoRepository<UserCliente, Stri
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
+
+
 }

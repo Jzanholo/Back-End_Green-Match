@@ -70,7 +70,14 @@ public class UserCatador {
         this.dayWeek = dayWeek;
         this.dayPeriod = dayPeriod;
     }
-
+    public UserCatador(String id, String username, String email, String name, String phone, String birthDate) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.birthDate = birthDate;
+    }
     public void setMaterials(List<String> materials) {
         this.materials = materials;
     }

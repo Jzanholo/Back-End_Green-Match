@@ -50,6 +50,23 @@ public class UserCliente {
 
     private List<String> adress = new ArrayList<>();
 
+    public UserCliente(String id, String username, String email, String name, String phone, String birthDate) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.birthDate = birthDate;
+    }
+
+    public UserCliente(String username, String email, String name, String phone, String birthDate) {
+        this.username = username;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.birthDate = birthDate;
+    }
+
     public String getName() {
         return name;
     }
