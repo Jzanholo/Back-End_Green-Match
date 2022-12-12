@@ -1,19 +1,29 @@
 package com.example.demo.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "address")
 public class Address {
     @Id
     private String id;
-    private String username_user;
+    private String address_name;
+    private String username;
     private String street;
-    private int complement;
+    private String complement;
     private String district;
-    private String CEP;
+    private String cep;
     private String city;
     private String state;
+
+    public String getAddress_name() {
+        return address_name;
+    }
+
+    public void setAdress_name(String address_name) {
+        this.address_name = address_name;
+    }
 
     public String getStreet() {
         return street;
@@ -23,11 +33,11 @@ public class Address {
         this.street = street;
     }
 
-    public int getComplement() {
+    public String getComplement() {
         return complement;
     }
 
-    public void setComplement(int complement) {
+    public void setComplement(String complement) {
         this.complement = complement;
     }
 
@@ -39,12 +49,12 @@ public class Address {
         this.district = district;
     }
 
-    public String getCEP() {
-        return CEP;
+    public String getCep() {
+        return cep;
     }
 
-    public void setCEP(String CEP) {
-        this.CEP = CEP;
+    public void setCep(String Cep) {
+        this.cep = cep;
     }
 
     public String getCity() {
@@ -63,12 +73,15 @@ public class Address {
         this.state = state;
     }
 
-    public Address(String username_user, String street, int complement, String district, String CEP, String city, String state) {
-        this.username_user = username_user;
+
+    @PersistenceConstructor
+    public Address(String address_name,String username, String street, String complement, String district, String cep, String city, String state) {
+        this.address_name = address_name;
+        this.username = username;
         this.street = street;
         this.complement = complement;
         this.district = district;
-        this.CEP = CEP;
+        this.cep = cep;
         this.city = city;
         this.state = state;
     }

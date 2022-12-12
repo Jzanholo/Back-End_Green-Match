@@ -29,7 +29,7 @@ public class ColetaController {
                     coletaRequest.getName_collect(),
                     AuthController.username,
                     coletaRequest.getUsername_scavenger(),
-                    coletaRequest.getAdress(),
+                    coletaRequest.getAddress(),
                     coletaRequest.getObs(),
                     coletaRequest.getWeight(),
                     coletaRequest.getMaterials(),
