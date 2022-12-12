@@ -1,18 +1,18 @@
 package com.example.demo.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-@Document(collection = "Coleta")
+@Document(collection = "Coleta Solicitada")
 public class Coleta {
     @Id
     private String id;
     @NotNull
-    private String username_cliente;
-    @NotNull
+    private String username;
     private String username_scavenger;
     @NotNull
     private String adress;
@@ -29,12 +29,13 @@ public class Coleta {
 
     private List<String> dayPeriod =  new ArrayList<>();
 
-    public Coleta(String username_cliente) {
-        this.username_cliente = username_cliente;
+    public Coleta(String username) {
+        this.username = username;
     }
 
-    public Coleta(String username_cliente, String username_scavenger, String adress, String obs, double weight, List<String> materials, List<String> dayWeek, List<String> dayPeriod) {
-        this.username_cliente = username_cliente;
+    @PersistenceConstructor
+    public Coleta(String username, String username_scavenger, String adress, String obs, double weight, List<String> materials, List<String> dayWeek, List<String> dayPeriod) {
+        this.username = username;
         this.username_scavenger = username_scavenger;
         this.adress = adress;
         this.obs = obs;
