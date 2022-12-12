@@ -13,6 +13,10 @@ public class UserInfoResponse {
     private String birthDate;
 
 
+    public UserInfoResponse(String id, String username) {
+        this.id = id;
+        this.username = username;
+    }
 
     public UserInfoResponse(String id, String username, String email, List<String> roles) {
         this.id = id;

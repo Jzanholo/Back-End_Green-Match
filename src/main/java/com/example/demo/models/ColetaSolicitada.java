@@ -8,9 +8,10 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 @Document(collection = "Coleta Solicitada")
-public class Coleta {
+public class ColetaSolicitada {
     @Id
     private String id;
+    private String name_collect;
     @NotNull
     private String username;
     private String username_scavenger;
@@ -27,14 +28,15 @@ public class Coleta {
     private List<String> dayWeek =  new ArrayList<>();
     @NotNull
 
-    private List<String> dayPeriod =  new ArrayList<>();
+    private String dayPeriod;
 
-    public Coleta(String username) {
+    public ColetaSolicitada(String username) {
         this.username = username;
     }
 
     @PersistenceConstructor
-    public Coleta(String username, String username_scavenger, String adress, String obs, double weight, List<String> materials, List<String> dayWeek, List<String> dayPeriod) {
+    public ColetaSolicitada(String name_collect,String username, String username_scavenger, String adress, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
+        this.name_collect = name_collect;
         this.username = username;
         this.username_scavenger = username_scavenger;
         this.adress = adress;
@@ -43,6 +45,22 @@ public class Coleta {
         this.materials = materials;
         this.dayWeek = dayWeek;
         this.dayPeriod = dayPeriod;
+    }
+
+    public String getName_collect() {
+        return name_collect;
+    }
+
+    public void setName_collect(String name_collect) {
+        this.name_collect = name_collect;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getId() {
@@ -101,11 +119,11 @@ public class Coleta {
         this.dayWeek = dayWeek;
     }
 
-    public List<String> getDayPeriod() {
+    public String getDayPeriod() {
         return dayPeriod;
     }
 
-    public void setDayPeriod(List<String> dayPeriod) {
+    public void setDayPeriod(String dayPeriod) {
         this.dayPeriod = dayPeriod;
     }
 }

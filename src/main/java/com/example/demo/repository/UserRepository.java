@@ -1,13 +1,16 @@
 package com.example.demo.repository;
 
-import com.example.demo.models.UserCatador;
+import com.example.demo.models.UserCliente;
+import com.example.demo.models.Users;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface UserCatadorRepository extends MongoRepository<UserCatador, String> {
-    Optional<UserCatador> findByUsername(String username);
+public interface UserRepository extends MongoRepository<Users,String> {
+    Optional<Users> findByUsername(String username);
+
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
+
 }

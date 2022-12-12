@@ -15,10 +15,7 @@ import com.example.demo.payload.requests.SignupCatadorRequest;
 import com.example.demo.payload.requests.SignupClienteRequest;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.payload.response.UserInfoResponse;
-import com.example.demo.repository.ColetaRepository;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserCatadorRepository;
-import com.example.demo.repository.UserClienteRepository;
+import com.example.demo.repository.*;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.security.services.UserDetailsServiceImpl;
@@ -31,6 +28,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +46,8 @@ public class AuthController {
     UserCatadorRepository userCatadorRepository;
     @Autowired
     RoleRepository roleRepository;
-
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -82,7 +81,6 @@ public class AuthController {
 
     @PostMapping("/signinClient")
     public ResponseEntity<?> authenticateUserClient(@Valid @RequestBody LoginRequest loginRequest) {
-        System.out.println(loginRequest.getUsername() + "----"+ loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -95,14 +93,12 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        userCliente = new UserCliente(userDetails.getId(),userDetails.getUsername(),userDetails.getEmail(),userDetails.getName(),userDetails.getPhone(),userDetails.getBirthDate());
-        username = userCliente.getUsername();
-        id = userCliente.getId();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(userCliente);
+        id = userDetails.getId();
+        username = userDetails.getUsername();
+        return ResponseEntity.ok(roles);
     }
 
-    @PostMapping("/signinScavenger")
+   /* @PostMapping("/signinScavenger")
     public ResponseEntity<?> authenticateUserScavenger(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -117,54 +113,49 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        userCatador = new UserCatador(userDetails.getId(),userDetails.getUsername(),userDetails.getEmail(),userDetails.getName(),userDetails.getPhone(),userDetails.getBirthDate());
-        username = userCatador.getUsername();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(userCatador);
-    }
-
-    @GetMapping("/meusDados")
+                .body("Login efetuado com sucesso");
+    }*/
+    /*@GetMapping("/meusDados")
     public UserCliente retornInfo(){
         return userCliente;
-    }
-
-    /*@GetMapping("/infoTeste")
-    @ResponseBody
-    public ResponseEntity<Object> currentUserName(Authentication authentication) {
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return ResponseEntity.ok(new UserInfoResponse(
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                userDetails.getName(),
-                userDetails.getPhone(),
-                userDetails.getBirthDate()
-        ));
     }*/
+
+    @GetMapping("/meusDados")
+    public List<UserCliente> currentUserName() {
+        //Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //if (usuarioLogado instanceof UserDetails) { username= ( (UserDetails)usuarioLogado).getUsername(); }
+        //else { username = usuarioLogado .toString(); }
+        List<UserCliente> info = userClienteRepository.findByUsername(username);
+        return info;
+    }
 
     @PostMapping("/registerClient")
     public ResponseEntity<?> registerUserCliente(@Valid @RequestBody SignupClienteRequest signUpRequest) {
-        if (userClienteRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userClienteRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
         // Create new user's account
-        UserCliente user = new UserCliente(signUpRequest.getUsername(),
+        UserCliente userCliente = new UserCliente(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getName(),
                 signUpRequest.getPhone(),
                 signUpRequest.getBirthDate(),
                 signUpRequest.getGender()
+                );
+        Users users = new Users(signUpRequest.getUsername(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getEmail()
                 );
 
         Set<String> strRoles = signUpRequest.getRoles();
@@ -180,31 +171,25 @@ public class AuthController {
                         roles.add(userRole);
 
                         break;
-                    case "catador":
-                        Role catadorRole = roleRepository.findByName(ERole.ROLE_CATADOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found. entrou aqui 3"));
-                        roles.add(catadorRole);
-
-                        break;
                 }
             });
 
 
-        user.setRoles(roles);
-        userClienteRepository.save(user);
-
+        users.setRoles(roles);
+        userClienteRepository.save(userCliente);
+        userRepository.save(users);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
     @PostMapping("/registerScavenger")
     public ResponseEntity<?> registerUserCatador(@Valid @RequestBody SignupCatadorRequest signUpCatadorRequest) {
-        if (userCatadorRepository.existsByUsername(signUpCatadorRequest.getUsername())) {
+        if (userRepository.existsByUsername(signUpCatadorRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userCatadorRepository.existsByEmail(signUpCatadorRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpCatadorRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
@@ -223,7 +208,12 @@ public class AuthController {
                 signUpCatadorRequest.getDayPeriod()
         );
 
+        Users users = new Users(signUpCatadorRequest.getUsername(),
+                encoder.encode(signUpCatadorRequest.getPassword()),
+                signUpCatadorRequest.getEmail()
+        );
         Set<String> strRoles = signUpCatadorRequest.getRoles();
+
         Set<Role> roles = new HashSet<>();
 
         strRoles.forEach(role -> {
@@ -239,9 +229,9 @@ public class AuthController {
             }
         });
 
-        user.setRoles(roles);
+        users.setRoles(roles);
         userCatadorRepository.save(user);
-
+        userRepository.save(users);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

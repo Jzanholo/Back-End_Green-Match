@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.example.demo.models.UserCliente;
+import com.example.demo.models.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,29 +20,18 @@ public class UserDetailsImpl implements UserDetails {
 
     private String username;
 
-    private String email;
-
-    private String name;
-    private String phone;
-    private String birthDate;
     @JsonIgnore
     private String password;
-
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String id, String username, String email, String password, String name,
-                           String phone, String birthDate, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(String id, String username,String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
-        this.email = email;
         this.password = password;
-        this.name = name;
-        this.phone = phone;
-        this.birthDate = birthDate;
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(UserCliente user) {
+    public static UserDetailsImpl build(Users user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
@@ -49,11 +39,7 @@ public class UserDetailsImpl implements UserDetails {
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
-                user.getEmail(),
                 user.getPassword(),
-                user.getName(),
-                user.getPhone(),
-                user.getBirthDate(),
                 authorities);
     }
 
@@ -61,16 +47,10 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-    public String getName() { return name;}
-    public String getPhone() { return phone;}
-    public String getBirthDate() {return birthDate;}
     public String getId() {
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     @Override
     public String getPassword() {

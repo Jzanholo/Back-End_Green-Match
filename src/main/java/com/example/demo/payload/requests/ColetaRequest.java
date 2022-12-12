@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ColetaRequest {
+    private String id;
+    private String name_collect;
     @NotNull
-    private String username_client;
-    @NotNull
+    private String username;
     private String username_scavenger;
     @NotNull
     private String adress;
@@ -22,14 +23,30 @@ public class ColetaRequest {
     private List<String> dayWeek =  new ArrayList<>();
     @NotNull
 
-    private List<String> dayPeriod =  new ArrayList<>();
+    private String dayPeriod;
 
-    public String getUsername_client() {
-        return username_client;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername_client(String username_client) {
-        this.username_client = username_client;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName_collect() {
+        return name_collect;
+    }
+
+    public void setName_collect(String name_collect) {
+        this.name_collect = name_collect;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username_client) {
+        this.username = username;
     }
 
     public String getUsername_scavenger() {
@@ -81,11 +98,11 @@ public class ColetaRequest {
         this.dayWeek = dayWeek;
     }
 
-    public List<String> getDayPeriod() {
+    public String getDayPeriod() {
         return dayPeriod;
     }
 
-    public void setDayPeriod(List<String> dayPeriod) {
+    public void setDayPeriod(String dayPeriod) {
         this.dayPeriod = dayPeriod;
     }
 }
