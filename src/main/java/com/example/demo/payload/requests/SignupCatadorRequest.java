@@ -38,6 +38,8 @@ public class SignupCatadorRequest {
     @Size(max = 9)
     private String gender;
 
+    @NotBlank
+    private String work;
 
     @NotNull
     private List<String> materials =  new ArrayList<>();
@@ -45,6 +47,14 @@ public class SignupCatadorRequest {
     private List<String> dayWeek =  new ArrayList<>();
 
     private List<String> dayPeriod =  new ArrayList<>();
+
+    public String getWork() {
+        return work;
+    }
+
+    public void setWork(String work) {
+        this.work = work;
+    }
 
     public List<String> getMaterials() {
         return materials;

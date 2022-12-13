@@ -2,33 +2,26 @@ package com.example.demo.controllers;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import com.example.demo.models.*;
-import com.example.demo.payload.requests.ColetaRequest;
 import com.example.demo.payload.requests.LoginRequest;
 import com.example.demo.payload.requests.SignupCatadorRequest;
 import com.example.demo.payload.requests.SignupClienteRequest;
 import com.example.demo.payload.response.MessageResponse;
-import com.example.demo.payload.response.UserInfoResponse;
 import com.example.demo.repository.*;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.security.services.UserDetailsImpl;
-import com.example.demo.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +53,7 @@ public class AuthController {
     public static String username = "";
     public static String id = "";
     @Autowired
-    ColetaRepository coletaRepository;
+    ColetaSolicitadaRepository coletaRepository;
 
     /*@PostMapping("/coleta")
     public ResponseEntity<?> NovaColeta(@Valid @RequestBody ColetaRequest coletaRequest) {
@@ -203,6 +196,7 @@ public class AuthController {
                 signUpCatadorRequest.getPhone(),
                 signUpCatadorRequest.getBirthDate(),
                 signUpCatadorRequest.getGender(),
+                signUpCatadorRequest.getWork(),
                 signUpCatadorRequest.getMaterials(),
                 signUpCatadorRequest.getDayWeek(),
                 signUpCatadorRequest.getDayPeriod()

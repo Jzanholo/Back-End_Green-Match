@@ -32,6 +32,8 @@ public class UserCatador {
     @Size(max = 120)
     private String password;
 
+    @NotNull
+    private String work;
     @DBRef
     private Set<Role> roles = new HashSet<>();
 
@@ -58,7 +60,7 @@ public class UserCatador {
 
     private List<String> dayPeriod =  new ArrayList<>();
 
-    public UserCatador(String username, String email, String password, String name, String phone, String birthDate, String gender, List<String> materials, List<String> dayWeek, List<String> dayPeriod) {
+    public UserCatador(String username, String email, String password, String name, String phone, String birthDate, String gender, List<String> materials, List<String> dayWeek, List<String> dayPeriod, String work) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -66,6 +68,7 @@ public class UserCatador {
         this.phone = phone;
         this.birthDate = birthDate;
         this.gender = gender;
+        this.work = work;
         this.materials = materials;
         this.dayWeek = dayWeek;
         this.dayPeriod = dayPeriod;
@@ -78,6 +81,15 @@ public class UserCatador {
         this.phone = phone;
         this.birthDate = birthDate;
     }
+
+    public String getWork() {
+        return work;
+    }
+
+    public void setWork(String work) {
+        this.work = work;
+    }
+
     public void setMaterials(List<String> materials) {
         this.materials = materials;
     }
