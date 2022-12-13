@@ -16,7 +16,7 @@ public class ColetaSolicitada {
     private String username;
     private String username_scavenger;
     @NotNull
-    private String adress;
+    private String address;
     private String obs;
     @NotNull
     private double weight;
@@ -35,11 +35,11 @@ public class ColetaSolicitada {
     }
 
     @PersistenceConstructor
-    public ColetaSolicitada(String name_collect,String username, String username_scavenger, String adress, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
+    public ColetaSolicitada(String name_collect,String username, String username_scavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
         this.name_collect = name_collect;
         this.username = username;
         this.username_scavenger = username_scavenger;
-        this.adress = adress;
+        this.address = address;
         this.obs = obs;
         this.weight = weight;
         this.materials = materials;
@@ -79,12 +79,12 @@ public class ColetaSolicitada {
         this.username_scavenger = username_scavenger;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getObs() {

@@ -47,6 +47,12 @@ public class ColetaController {
         return info;
     }
 
+    @GetMapping("/AllCollect")
+    public List<ColetaSolicitada> obterTodasColetas(){
+        List<ColetaSolicitada> info = coletaRepository.findAll();
+        return info;
+    }
+
     @PostMapping("/deleteById")
     public ResponseEntity<?> deletarColeta(@RequestBody ColetaRequest coletaRequest) {
         coletaRepository.deleteById(coletaRequest.getId());
