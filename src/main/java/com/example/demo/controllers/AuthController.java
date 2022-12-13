@@ -114,8 +114,8 @@ public class AuthController {
         return userCliente;
     }*/
 
-    @GetMapping("/meusDados")
-    public List<UserCliente> currentUserName() {
+    @GetMapping("/custumerData")
+    public List<UserCliente> retorna() {
         //Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //if (usuarioLogado instanceof UserDetails) { username= ( (UserDetails)usuarioLogado).getUsername(); }
         //else { username = usuarioLogado .toString(); }
@@ -123,6 +123,11 @@ public class AuthController {
         return info;
     }
 
+    @GetMapping("/ScavengerData")
+    public List<UserCatador> currentUserName() {
+        List<UserCatador> info = userCatadorRepository.findByUsername(username);
+        return info;
+    }
     @PostMapping("/registerClient")
     public ResponseEntity<?> registerUserCliente(@Valid @RequestBody SignupClienteRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -189,7 +194,8 @@ public class AuthController {
         }
 
         // Create new user's account
-        UserCatador user = new UserCatador(signUpCatadorRequest.getUsername(),
+        UserCatador user = new UserCatador(
+                signUpCatadorRequest.getUsername(),
                 signUpCatadorRequest.getEmail(),
                 encoder.encode(signUpCatadorRequest.getPassword()),
                 signUpCatadorRequest.getName(),

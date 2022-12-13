@@ -68,8 +68,8 @@ public class ColetaController {
         coletaSolicitadaRepository.deleteById(coletaRequest.getId());
         ColetaAgendada newColeta = new ColetaAgendada(
                 coletaRequest.getName_collect(),
+                coletaRequest.getUsername(),
                 AuthController.username,
-                coletaRequest.getUsername_scavenger(),
                 coletaRequest.getAddress(),
                 coletaRequest.getObs(),
                 coletaRequest.getWeight(),

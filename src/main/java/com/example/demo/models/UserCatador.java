@@ -32,7 +32,7 @@ public class UserCatador {
     @Size(max = 120)
     private String password;
 
-    @NotNull
+    @NotBlank
     private String work;
     @DBRef
     private Set<Role> roles = new HashSet<>();
@@ -60,7 +60,7 @@ public class UserCatador {
 
     private List<String> dayPeriod =  new ArrayList<>();
 
-    public UserCatador(String username, String email, String password, String name, String phone, String birthDate, String gender, List<String> materials, List<String> dayWeek, List<String> dayPeriod, String work) {
+    public UserCatador(String username, String email, String password, String name, String phone, String birthDate, String gender, String work,List<String> materials, List<String> dayWeek, List<String> dayPeriod) {
         this.username = username;
         this.email = email;
         this.password = password;
