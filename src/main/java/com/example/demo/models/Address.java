@@ -11,11 +11,20 @@ public class Address {
     private String address_name;
     private String username;
     private String street;
+    private int number;
     private String complement;
     private String district;
     private String cep;
     private String city;
     private String state;
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
     public String getAddress_name() {
         return address_name;
@@ -75,10 +84,11 @@ public class Address {
 
 
     @PersistenceConstructor
-    public Address(String address_name,String username, String street, String complement, String district, String cep, String city, String state) {
+    public Address(String address_name,String username, String street, int number, String complement, String district, String cep, String city, String state) {
         this.address_name = address_name;
         this.username = username;
         this.street = street;
+        this.number = number;
         this.complement = complement;
         this.district = district;
         this.cep = cep;

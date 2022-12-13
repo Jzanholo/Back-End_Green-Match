@@ -25,6 +25,7 @@ public class AddressController {
                 addressRequest.getAddress_name(),
                 AuthController.username,
                 addressRequest.getStreet(),
+                addressRequest.getNumber(),
                 addressRequest.getComplement(),
                 addressRequest.getDistrict(),
                 addressRequest.getCep(),

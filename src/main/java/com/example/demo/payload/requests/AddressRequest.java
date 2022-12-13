@@ -10,6 +10,8 @@ public class AddressRequest {
     @NotNull
     private String street;
     @NotNull
+    private int number;
+
     private String complement;
     @NotNull
 
@@ -20,6 +22,10 @@ public class AddressRequest {
     private String city;
     @NotNull
     private String state;
+
+    public int getNumber() {
+        return number;
+    }
 
     public String getAddress_name() {
         return address_name;
