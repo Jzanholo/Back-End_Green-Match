@@ -15,7 +15,7 @@ public class ColetaAgendada {
     @NotNull
     private String username;
     @NotNull
-    private String username_scavenger;
+    private String usernameScavenger;
     @NotNull
     private String address;
     private String obs;
@@ -36,10 +36,23 @@ public class ColetaAgendada {
     }
 
     @PersistenceConstructor
-    public ColetaAgendada(String name_collect,String username, String username_scavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
+    public ColetaAgendada(String name_collect,String username, String usernameScavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
         this.name_collect = name_collect;
         this.username = username;
-        this.username_scavenger = username_scavenger;
+        this.usernameScavenger = usernameScavenger;
+        this.address = address;
+        this.obs = obs;
+        this.weight = weight;
+        this.materials = materials;
+        this.dayWeek = dayWeek;
+        this.dayPeriod = dayPeriod;
+    }
+
+    public ColetaAgendada(String id, String name_collect, String username, String usernameScavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
+        this.id = id;
+        this.name_collect = name_collect;
+        this.username = username;
+        this.usernameScavenger = usernameScavenger;
         this.address = address;
         this.obs = obs;
         this.weight = weight;
@@ -72,12 +85,12 @@ public class ColetaAgendada {
         this.id = id;
     }
 
-    public String getUsername_scavenger() {
-        return username_scavenger;
+    public String getUsernameScavenger() {
+        return usernameScavenger;
     }
 
-    public void setUsername_scavenger(String username_scavenger) {
-        this.username_scavenger = username_scavenger;
+    public void setUsernameScavenger(String username_scavenger) {
+        this.usernameScavenger = username_scavenger;
     }
 
     public String getAddress() {

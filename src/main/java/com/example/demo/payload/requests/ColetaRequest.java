@@ -9,7 +9,7 @@ public class ColetaRequest {
     private String name_collect;
     @NotNull
     private String username;
-    private String username_scavenger;
+    private String usernameScavenger;
     @NotNull
     private String address;
     private String obs;
@@ -44,8 +44,8 @@ public class ColetaRequest {
         this.username = username;
     }
 
-    public String getUsername_scavenger() {
-        return username_scavenger;
+    public String getUsernameScavenger() {
+        return usernameScavenger;
     }
 
     public String getAddress() {

@@ -32,7 +32,7 @@ public class ColetaController {
             ColetaSolicitada newColeta = new ColetaSolicitada(
                     coletaRequest.getName_collect(),
                     AuthController.username,
-                    coletaRequest.getUsername_scavenger(),
+                    coletaRequest.getUsernameScavenger(),
                     coletaRequest.getAddress(),
                     coletaRequest.getObs(),
                     coletaRequest.getWeight(),
@@ -57,27 +57,39 @@ public class ColetaController {
         return info;
     }
 
+    @GetMapping("/AllCollectScheduled")
+    public List<ColetaAgendada> obterTodasColetasAgendadas(){
+        List<ColetaAgendada> info = coletaAgendadaRepository.findByUsernameScavenger("jesus");
+        return info;
+    }
+
     @PostMapping("/deleteById")
-    public ResponseEntity<?> deletarColeta(@RequestBody ColetaRequest coletaRequest) {
-        coletaAgendadaRepository.deleteById(coletaRequest.getId());
+    public ResponseEntity<?> deletarColeta(@RequestBody String id) {
+        coletaSolicitadaRepository.deleteById(id);
+        System.out.println(id);
         return ResponseEntity.ok("deletado");
     }
 
-    @PostMapping("/AllCollect")
-    public ResponseEntity<?> aceitarColeta(@RequestBody ColetaRequest coletaRequest){
-        coletaSolicitadaRepository.deleteById(coletaRequest.getId());
+    @PostMapping("/acceptRequest")
+    public ResponseEntity<?> aceitarColeta(@RequestBody String id){
+        Optional<ColetaSolicitada> coleta = coletaSolicitadaRepository.findById(id);
+
         ColetaAgendada newColeta = new ColetaAgendada(
-                coletaRequest.getName_collect(),
-                coletaRequest.getUsername(),
+                coleta.get().getId(),
+                coleta.get().getName_collect(),
+                coleta.get().getUsername(),
                 AuthController.username,
-                coletaRequest.getAddress(),
-                coletaRequest.getObs(),
-                coletaRequest.getWeight(),
-                coletaRequest.getMaterials(),
-                coletaRequest.getDayWeek(),
-                coletaRequest.getDayPeriod()
+                coleta.get().getAddress(),
+                coleta.get().getObs(),
+                coleta.get().getWeight(),
+                coleta.get().getMaterials(),
+                coleta.get().getDayWeek(),
+                coleta.get().getDayPeriod()
         );
+
         coletaAgendadaRepository.save(newColeta);
+        coletaSolicitadaRepository.deleteById(id);
+
         return ResponseEntity.ok("Coleta aceita com sucesso");
     }
 }
