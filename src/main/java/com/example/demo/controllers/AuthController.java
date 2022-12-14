@@ -55,24 +55,8 @@ public class AuthController {
     @Autowired
     ColetaSolicitadaRepository coletaRepository;
 
-    /*@PostMapping("/coleta")
-    public ResponseEntity<?> NovaColeta(@Valid @RequestBody ColetaRequest coletaRequest) {
-
-        Coleta newColeta = new Coleta(
-                userCliente.getUsername(),
-                coletaRequest.getUsername_scavenger(),
-                coletaRequest.getAdress(),
-                coletaRequest.getObs(),
-                coletaRequest.getWeight(),
-                coletaRequest.getMaterials(),
-                coletaRequest.getDayWeek(),
-                coletaRequest.getDayPeriod()
-        );
-        coletaRepository.save(newColeta);
-        return ResponseEntity.ok(new MessageResponse("Pedido de coleta enviado com sucesso"));
-    }*/
-
-    @PostMapping("/signinClient")
+    //LOGIN DO USUARIO
+    @PostMapping("/signin")
     public ResponseEntity<?> authenticateUserClient(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -91,29 +75,6 @@ public class AuthController {
         return ResponseEntity.ok(roles);
     }
 
-   /* @PostMapping("/signinScavenger")
-    public ResponseEntity<?> authenticateUserScavenger(@Valid @RequestBody LoginRequest loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body("Login efetuado com sucesso");
-    }*/
-    /*@GetMapping("/meusDados")
-    public UserCliente retornInfo(){
-        return userCliente;
-    }*/
-
     @GetMapping("/custumerData")
     public List<UserCliente> retorna() {
         //Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -126,7 +87,7 @@ public class AuthController {
     @GetMapping("/ScavengerData")
     public List<UserCatador> currentUserName() {
         if(userCatadorRepository.existsByUsername(username)) System.out.println("achou");
-        List<UserCatador> info = userCatadorRepository.findByUsername(username);
+        List<UserCatador> info = userCatadorRepository.findByUsername("usuario1");
         return info;
     }
     @PostMapping("/registerClient")

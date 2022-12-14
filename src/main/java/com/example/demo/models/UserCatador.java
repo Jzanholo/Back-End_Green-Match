@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -72,7 +73,7 @@ public class UserCatador {
         this.dayWeek = dayWeek;
         this.dayPeriod = dayPeriod;
     }
-
+    @PersistenceConstructor
     public UserCatador(String username, String email, String work, String name, String phone, String birthDate, String gender, List<String> materials, List<String> dayWeek, List<String> dayPeriod) {
         this.username = username;
         this.email = email;

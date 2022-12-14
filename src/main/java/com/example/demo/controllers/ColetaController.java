@@ -59,7 +59,7 @@ public class ColetaController {
 
     @GetMapping("/AllCollectScheduled")
     public List<ColetaAgendada> obterTodasColetasAgendadas(){
-        List<ColetaAgendada> info = coletaAgendadaRepository.findByUsernameScavenger("jesus");
+        List<ColetaAgendada> info = coletaAgendadaRepository.findByUsernameScavenger(AuthController.username);
         return info;
     }
 
