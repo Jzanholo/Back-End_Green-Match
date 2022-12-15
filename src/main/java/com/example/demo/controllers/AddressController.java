@@ -38,7 +38,6 @@ public class AddressController {
     @GetMapping("/AddressByUsername")
     public List<Address> coletaPorCliente(){
         List<Address> info = addressRepository.findByUsername(AuthController.username);
-        System.out.println(AuthController.username);
         return info;
     }
 

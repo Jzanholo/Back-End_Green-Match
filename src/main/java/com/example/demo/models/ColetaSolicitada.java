@@ -35,10 +35,9 @@ public class ColetaSolicitada {
     }
 
     @PersistenceConstructor
-    public ColetaSolicitada(String name_collect,String username, String usernameScavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
+    public ColetaSolicitada(String name_collect,String username, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
         this.name_collect = name_collect;
         this.username = username;
-        this.usernameScavenger = usernameScavenger;
         this.address = address;
         this.obs = obs;
         this.weight = weight;

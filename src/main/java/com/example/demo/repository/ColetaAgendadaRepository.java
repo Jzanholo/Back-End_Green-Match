@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ColetaAgendadaRepository extends MongoRepository<ColetaAgendada, String> {
     List<ColetaAgendada> findByUsernameScavenger(String username);
+    List<ColetaAgendada> findByUsername(String username);
 }

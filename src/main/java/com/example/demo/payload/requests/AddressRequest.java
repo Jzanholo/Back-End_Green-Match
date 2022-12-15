@@ -3,6 +3,7 @@ package com.example.demo.payload.requests;
 import javax.validation.constraints.NotNull;
 
 public class AddressRequest {
+    private String id;
     @NotNull
     private String address_name;
    // @NotNull
@@ -22,6 +23,7 @@ public class AddressRequest {
     private String city;
     @NotNull
     private String state;
+
 
     public int getNumber() {
         return number;

@@ -18,6 +18,14 @@ public class Address {
     private String city;
     private String state;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public int getNumber() {
         return number;
     }
@@ -82,6 +90,20 @@ public class Address {
         this.state = state;
     }
 
+
+    @PersistenceConstructor
+    public Address(String id, String address_name,String username, String street, int number, String complement, String district, String cep, String city, String state) {
+        this.id = id;
+        this.address_name = address_name;
+        this.username = username;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.district = district;
+        this.cep = cep;
+        this.city = city;
+        this.state = state;
+    }
 
     @PersistenceConstructor
     public Address(String address_name,String username, String street, int number, String complement, String district, String cep, String city, String state) {

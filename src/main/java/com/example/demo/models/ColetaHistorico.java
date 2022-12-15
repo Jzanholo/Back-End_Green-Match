@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "Coleta Agendada")
-public class ColetaAgendada {
+@Document(collection = "ColetaHistorico")
+public class ColetaHistorico {
     private String id;
     private String name_collect;
     @NotNull
@@ -31,14 +31,12 @@ public class ColetaAgendada {
 
     private String dayPeriod;
 
-   // private Address address_info;
-
-    public ColetaAgendada(String username) {
+    public ColetaHistorico(String username) {
         this.username = username;
     }
 
     @PersistenceConstructor
-    public ColetaAgendada(String name_collect,String username, String usernameScavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
+    public ColetaHistorico(String name_collect,String username, String usernameScavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
         this.name_collect = name_collect;
         this.username = username;
         this.usernameScavenger = usernameScavenger;
@@ -50,7 +48,7 @@ public class ColetaAgendada {
         this.dayPeriod = dayPeriod;
     }
 
-    public ColetaAgendada(String id, String name_collect, String username, String usernameScavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
+    public ColetaHistorico(String id, String name_collect, String username, String usernameScavenger, String address, String obs, double weight, List<String> materials, List<String> dayWeek, String dayPeriod) {
         this.id = id;
         this.name_collect = name_collect;
         this.username = username;

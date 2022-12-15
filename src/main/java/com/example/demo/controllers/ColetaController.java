@@ -1,12 +1,12 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.Address;
 import com.example.demo.models.ColetaAgendada;
+import com.example.demo.models.ColetaHistorico;
 import com.example.demo.models.ColetaSolicitada;
 import com.example.demo.payload.requests.ColetaRequest;
 import com.example.demo.payload.response.MessageResponse;
-import com.example.demo.repository.ColetaSolicitadaRepository;
-import com.example.demo.repository.ColetaAgendadaRepository;
-import com.example.demo.repository.UserCatadorRepository;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +25,16 @@ public class ColetaController {
     ColetaSolicitadaRepository coletaSolicitadaRepository;
     @Autowired
     ColetaAgendadaRepository coletaAgendadaRepository;
-
+    @Autowired
+    ColetaHistoricoRepository coletaHistoricoRepository;
+    @Autowired
+    AddressRepository addressRepository;
     @PostMapping("/newCollect")
     public ResponseEntity<?> NovaColeta(@RequestBody ColetaRequest coletaRequest){
 
             ColetaSolicitada newColeta = new ColetaSolicitada(
                     coletaRequest.getName_collect(),
                     AuthController.username,
-                    coletaRequest.getUsernameScavenger(),
                     coletaRequest.getAddress(),
                     coletaRequest.getObs(),
                     coletaRequest.getWeight(),
@@ -45,9 +47,15 @@ public class ColetaController {
             return ResponseEntity.ok(new MessageResponse("Pedido de coleta enviado com sucesso"));
     }
 
-    @GetMapping("/collectByUser")
-    public List<ColetaSolicitada> coletaPorCliente(){
+    @GetMapping("/collectRequestedByUser")
+    public List<ColetaSolicitada> coletaSolicitadaPorCliente(){
         List<ColetaSolicitada> info = coletaSolicitadaRepository.findByUsername(AuthController.username);
+        return info;
+    }
+
+    @GetMapping("/collectSchaduledByUser")
+    public List<ColetaAgendada> coletaAgendadaPorCliente(){
+        List<ColetaAgendada> info = coletaAgendadaRepository.findByUsername(AuthController.username);
         return info;
     }
 
@@ -56,18 +64,42 @@ public class ColetaController {
         List<ColetaSolicitada> info = coletaSolicitadaRepository.findAll();
         return info;
     }
-
-    @GetMapping("/AllCollectScheduled")
+    @GetMapping("/AllCollectSchaduledScavenger")
     public List<ColetaAgendada> obterTodasColetasAgendadas(){
         List<ColetaAgendada> info = coletaAgendadaRepository.findByUsernameScavenger(AuthController.username);
+        return info;
+    }
+
+    /*@GetMapping("/findAdressByCollect")
+    public List<ColetaAgendada> procuraEndereço(){
+        List<Address> info_address = addressRepository.findByName
+        List<ColetaAgendada> info = coletaAgendadaRepository.findByUsernameScavenger(AuthController.username);
+
+        return info;
+    }*/
+    @GetMapping("/AllCollectHistoricScavenger")
+    public List<ColetaHistorico> obterHistoricoColetasCatador(){
+        List<ColetaHistorico> info = coletaHistoricoRepository.findByUsernameScavenger(AuthController.username);
+        return info;
+    }
+
+    @GetMapping("/AllCollectHistoricCustumer")
+    public List<ColetaHistorico> obterHistoricoColetasCliente(){
+        List<ColetaHistorico> info = coletaHistoricoRepository.findByUsername(AuthController.username);
         return info;
     }
 
     @PostMapping("/deleteById")
     public ResponseEntity<?> deletarColeta(@RequestBody String id) {
         coletaSolicitadaRepository.deleteById(id);
+        return ResponseEntity.ok("Coleta deletado");
+    }
+
+    @PostMapping("/deleteAddressById")
+    public ResponseEntity<?> deletarEndereço(@RequestBody String id) {
+        addressRepository.deleteById(id);
         System.out.println(id);
-        return ResponseEntity.ok("deletado");
+        return ResponseEntity.ok("Endereço deletado");
     }
 
     @PostMapping("/acceptRequest")
@@ -92,4 +124,50 @@ public class ColetaController {
 
         return ResponseEntity.ok("Coleta aceita com sucesso");
     }
+
+    @PostMapping("/completeSchaduled")
+    public ResponseEntity<?> finalizarColeta(@RequestBody String id){
+        Optional<ColetaAgendada> coleta = coletaAgendadaRepository.findById(id);
+
+        ColetaHistorico newColeta = new ColetaHistorico(
+                coleta.get().getId(),
+                coleta.get().getName_collect(),
+                coleta.get().getUsername(),
+                coleta.get().getUsernameScavenger(),
+                coleta.get().getAddress(),
+                coleta.get().getObs(),
+                coleta.get().getWeight(),
+                coleta.get().getMaterials(),
+                coleta.get().getDayWeek(),
+                coleta.get().getDayPeriod()
+        );
+
+        coletaHistoricoRepository.save(newColeta);
+        coletaAgendadaRepository.deleteById(id);
+
+        return ResponseEntity.ok("Coleta finalizada com sucesso");
+    }
+
+    @PostMapping("/cancelSchaduled")
+    public ResponseEntity<?> cencelarColetaAgendada(@RequestBody String id){
+        Optional<ColetaAgendada> coleta = coletaAgendadaRepository.findById(id);
+
+        ColetaSolicitada newColeta = new ColetaSolicitada(
+                coleta.get().getName_collect(),
+                coleta.get().getUsername(),
+                coleta.get().getAddress(),
+                coleta.get().getObs(),
+                coleta.get().getWeight(),
+                coleta.get().getMaterials(),
+                coleta.get().getDayWeek(),
+                coleta.get().getDayPeriod()
+        );
+
+        coletaSolicitadaRepository.save(newColeta);
+        coletaAgendadaRepository.deleteById(id);
+
+        return ResponseEntity.ok("Coleta finalizada com sucesso");
+    }
+
+
 }

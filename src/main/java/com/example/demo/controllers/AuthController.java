@@ -87,7 +87,7 @@ public class AuthController {
     @GetMapping("/ScavengerData")
     public List<UserCatador> currentUserName() {
         if(userCatadorRepository.existsByUsername(username)) System.out.println("achou");
-        List<UserCatador> info = userCatadorRepository.findByUsername("usuario1");
+        List<UserCatador> info = userCatadorRepository.findByUsername(username);
         return info;
     }
     @PostMapping("/registerClient")
