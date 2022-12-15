@@ -75,6 +75,7 @@ public class AuthController {
         return ResponseEntity.ok(roles);
     }
 
+    //ENVIAR DADOS DO CLIENTE LOGADO
     @GetMapping("/custumerData")
     public List<UserCliente> retorna() {
         //Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -84,12 +85,15 @@ public class AuthController {
         return info;
     }
 
+    //ENVIAR DADOS DO CATADOR LOGADO
     @GetMapping("/ScavengerData")
     public List<UserCatador> currentUserName() {
         if(userCatadorRepository.existsByUsername(username)) System.out.println("achou");
         List<UserCatador> info = userCatadorRepository.findByUsername(username);
         return info;
     }
+
+    //REGISTRAR CLIENTE
     @PostMapping("/registerClient")
     public ResponseEntity<?> registerUserCliente(@Valid @RequestBody SignupClienteRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -141,6 +145,7 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    //REGISTRAR CATADOR
     @PostMapping("/registerScavenger")
     public ResponseEntity<?> registerUserCatador(@Valid @RequestBody SignupCatadorRequest signUpCatadorRequest) {
         if (userRepository.existsByUsername(signUpCatadorRequest.getUsername())) {

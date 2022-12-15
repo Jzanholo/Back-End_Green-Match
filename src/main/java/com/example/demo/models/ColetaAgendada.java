@@ -31,7 +31,7 @@ public class ColetaAgendada {
 
     private String dayPeriod;
 
-   // private Address address_info;
+    private Address address_info;
 
     public ColetaAgendada(String username) {
         this.username = username;

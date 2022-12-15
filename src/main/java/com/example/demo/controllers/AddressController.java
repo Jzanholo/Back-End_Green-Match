@@ -19,10 +19,12 @@ import java.util.List;
 public class AddressController {
     @Autowired
     AddressRepository addressRepository;
+
+    //CADASTRANDO NOVO ENDEREÇO
     @PostMapping("/newAddress")
     public ResponseEntity<?> registerAddress(@Valid @RequestBody AddressRequest addressRequest) {
         Address address = new Address(
-                addressRequest.getAddress_name(),
+                addressRequest.getAddressName(),
                 AuthController.username,
                 addressRequest.getStreet(),
                 addressRequest.getNumber(),
@@ -35,8 +37,9 @@ public class AddressController {
         addressRepository.save(address);
         return ResponseEntity.ok(new MessageResponse("Endereço cadastrado com sucesso!"));
     }
+    //BUSCAR TODOS OS ENDEREÇOS POR CLIENTE
     @GetMapping("/AddressByUsername")
-    public List<Address> coletaPorCliente(){
+    public List<Address> obterEndereçoPorCliente(){
         List<Address> info = addressRepository.findByUsername(AuthController.username);
         return info;
     }

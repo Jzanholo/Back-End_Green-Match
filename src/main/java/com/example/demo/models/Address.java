@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Address {
     @Id
     private String id;
-    private String address_name;
+    private String addressName;
     private String username;
     private String street;
     private int number;
@@ -34,12 +34,12 @@ public class Address {
         this.number = number;
     }
 
-    public String getAddress_name() {
-        return address_name;
+    public String getAddressName() {
+        return addressName;
     }
 
-    public void setAdress_name(String address_name) {
-        this.address_name = address_name;
+    public void setAdressName(String address_name) {
+        this.addressName = address_name;
     }
 
     public String getStreet() {
@@ -92,9 +92,9 @@ public class Address {
 
 
     @PersistenceConstructor
-    public Address(String id, String address_name,String username, String street, int number, String complement, String district, String cep, String city, String state) {
+    public Address(String id, String addressName,String username, String street, int number, String complement, String district, String cep, String city, String state) {
         this.id = id;
-        this.address_name = address_name;
+        this.addressName = addressName;
         this.username = username;
         this.street = street;
         this.number = number;
@@ -106,8 +106,8 @@ public class Address {
     }
 
     @PersistenceConstructor
-    public Address(String address_name,String username, String street, int number, String complement, String district, String cep, String city, String state) {
-        this.address_name = address_name;
+    public Address(String addressName,String username, String street, int number, String complement, String district, String cep, String city, String state) {
+        this.addressName = addressName;
         this.username = username;
         this.street = street;
         this.number = number;

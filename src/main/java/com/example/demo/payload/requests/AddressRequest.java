@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 public class AddressRequest {
     private String id;
     @NotNull
-    private String address_name;
+    private String addressName;
    // @NotNull
     private String username;
     @NotNull
@@ -29,8 +29,8 @@ public class AddressRequest {
         return number;
     }
 
-    public String getAddress_name() {
-        return address_name;
+    public String getAddressName() {
+        return addressName;
     }
 
     public String getStreet() {
